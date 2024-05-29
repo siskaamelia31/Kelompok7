@@ -1,4 +1,8 @@
 # kelompok7
+Anggota : 
+Sahrudin Fiqri M (210624)
+Muhammad Tsalman A (2106063)
+Siska (2106068)
 
 A new Flutter project.
 
