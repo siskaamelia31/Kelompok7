@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:kelompok7/detail_user.dart';
 
 class HomePostingan extends StatefulWidget {
   const HomePostingan({super.key});
@@ -13,13 +14,10 @@ class HomePostingan extends StatefulWidget {
 class _HomePostinganState extends State<HomePostingan> {
   List hasilPostingan = [];
   bool isLoading = false;
-  // fungsi untuk mengambil semua postingan
   void getSemuaPostingan() async {
     setState(() {
       isLoading = true;
     });
-    // String baseUrl = "https://jsonplaceholder.typicode.com";
-    //http.get(Uri.parse("$baseUrl/post"));
 
     final response =
         await http.get(Uri.parse("https://reqres.in/api/users?page=2"));
@@ -82,6 +80,15 @@ class _HomePostinganState extends State<HomePostingan> {
                       subtitle: Text(hasilPostingan[index]['first_name'] +
                           ' ' +
                           hasilPostingan[index]['last_name']),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                UserDetailPage(id: hasilPostingan[index]['id']),
+                          ),
+                        );
+                      },
                     ),
                   );
                 }),
