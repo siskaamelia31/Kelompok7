@@ -15,14 +15,14 @@ class _UserDetailPageState extends State<UserDetailPage> {
   Map<String, dynamic>? hasilPostingan;
   bool isLoading = false;
 
-
   void getDetailUser(int id) async {
     setState(() {
       isLoading = true;
     });
 
     try {
-      final response = await http.get(Uri.parse("https://reqres.in/api/users/$id"));
+      final response =
+          await http.get(Uri.parse("https://reqres.in/api/users/$id"));
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
         setState(() {
@@ -64,7 +64,8 @@ class _UserDetailPageState extends State<UserDetailPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('ID: ${hasilPostingan!['id']}'),
-                      Text('Name: ${hasilPostingan!['first_name']} ${hasilPostingan!['last_name']}'),
+                      Text(
+                          'Name: ${hasilPostingan!['first_name']} ${hasilPostingan!['last_name']}'),
                       Text('Email: ${hasilPostingan!['email']}'),
                       Image.network(hasilPostingan!['avatar']),
                     ],

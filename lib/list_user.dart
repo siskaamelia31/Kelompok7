@@ -3,15 +3,16 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kelompok7/detail_user.dart';
+import 'package:kelompok7/add_user.dart';
 
-class HomePostingan extends StatefulWidget {
-  const HomePostingan({super.key});
+class ListUser extends StatefulWidget {
+  const ListUser({super.key});
 
   @override
-  State<HomePostingan> createState() => _HomePostinganState();
+  State<ListUser> createState() => _ListUserState();
 }
 
-class _HomePostinganState extends State<HomePostingan> {
+class _ListUserState extends State<ListUser> {
   List hasilPostingan = [];
   bool isLoading = false;
   void getSemuaPostingan() async {
@@ -20,7 +21,7 @@ class _HomePostinganState extends State<HomePostingan> {
     });
 
     final response =
-        await http.get(Uri.parse("https://reqres.in/api/users?page=2"));
+        await http.get(Uri.parse("https://reqres.in/api/users?page=1"));
     setState(() {
       final jsonData = jsonDecode(response.body);
       hasilPostingan = jsonData['data'];
@@ -73,13 +74,7 @@ class _HomePostinganState extends State<HomePostingan> {
             : ListView.builder(
                 itemCount: hasilPostingan.length,
                 itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      leading: Text(hasilPostingan[index]['id'].toString()),
-                      title: Text(hasilPostingan[index]['email']),
-                      subtitle: Text(hasilPostingan[index]['first_name'] +
-                          ' ' +
-                          hasilPostingan[index]['last_name']),
+                  return InkWell(
                       onTap: () {
                         Navigator.push(
                           context,
@@ -89,16 +84,47 @@ class _HomePostinganState extends State<HomePostingan> {
                           ),
                         );
                       },
-                    ),
-                  );
+                      child: Card(
+                        child: Row(
+                          children: [
+                            // Text(hasilPostingan[index]['id'].toString()),
+                            Padding(
+                                padding: EdgeInsets.all(20),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(
+                                      8.0), // Adjust the radius as needed
+                                  child: Image.network(
+                                    hasilPostingan[index]['avatar'],
+                                    height: 90,
+                                    width:
+                                        90, // Optional: Specify width if needed
+                                    fit: BoxFit
+                                        .cover, // Optional: Specify how the image should be inscribed into the box
+                                  ),
+                                )),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(hasilPostingan[index]['email'].toString()),
+                                Text(hasilPostingan[index]['first_name']),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ));
                 }),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          postSemuaPostingan("test@example.com", "Test", "User");
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AddUserPage(), // <-- SEE HERE
+            ),
+          );
         },
         tooltip: 'Post User',
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
